@@ -11,7 +11,4 @@ depends "python"
 depends "ark"
 depends "database"
 
-%w(python dhcp sysctl git).each do |cookbook|
-  depends cookbook
-end
 depends 'runit', '>= 1.1.0'
