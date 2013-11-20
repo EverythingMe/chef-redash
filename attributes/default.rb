@@ -31,7 +31,7 @@ default['redash']['max_connections'] = 3
 default['redash']['cookie_secret']   = "c292a0a3aa32397cdb050e233733900f"
 
 default['redash']['server']['log']   = "./main"
-default['redash']['worker']['log']   = "./main" node['redash']['install_path']+"/redash/log/worker.log"
+default['redash']['worker']['log']   = "./main"
 
 default['redash']['server']['py']    = node['redash']['install_path']+"/redash/rd_service/server.py"
 default['redash']['worker']['py']    = node['redash']['install_path']+"/redash/rd_service/cli.py worker"
