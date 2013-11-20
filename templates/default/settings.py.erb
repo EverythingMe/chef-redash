@@ -19,7 +19,7 @@ ALLOWED_USERS = <%= Chef::JSONCompat.to_json node['redash']['allow']['google_app
 # Email addresses of admin users
 ADMINS = <%= Chef::JSONCompat.to_json node['redash']['allow']['admins'] %>
 
-STATIC_ASSETS_PATH = "<%= node['redash']['install_path'] %>/rd_ui/dist/"
+STATIC_ASSETS_PATH = "<%= node['redash']['install_path'] %>/redash/rd_ui/dist/"
 
 WORKERS_COUNT   = <%= node['redash']['workers_count'] %>
 MAX_CONNECTIONS = <%= node['redash']['max_connections'] %>
