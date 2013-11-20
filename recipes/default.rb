@@ -127,5 +127,11 @@ end
 
 
 #Install runit scripts and bring the system up:
-runit_service "redash-server"
-runit_service "redash-worker"
+runit_service "redash-server" do
+  action [:enable, :start]
+end
+
+runit_service "redash-worker" do
+  action [:enable, :start]
+end
+
