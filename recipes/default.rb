@@ -3,9 +3,13 @@
 # Recipe:: default
 #
 
-#Workaround for endocind errors with remote_file:
+#Workaround for encoding errors with remote_file:
 Encoding.default_external = Encoding::ASCII_8BIT
 
+
+######################################################
+#  Save section -- doesn't require redash to be down..
+######################################################
 include_recipe "postgresql::client"
 include_recipe "python"
 include_recipe "runit"
@@ -13,34 +17,8 @@ include_recipe "runit"
 #Enable cheff to interact with pg:
 include_recipe "database::postgresql"
 
-#Download and deploy the redash release
-#TODO: version should be acc. to what's in metadata.rb
-
-#TODO: install path should be a configurable attribute
 user node['redash']['user'] do
   system true
-end
-
-ark "redash" do
-  url     "http://github.com/EverythingMe/redash/releases/download/v0.1.35/redash.35.tar.gz"
-  action  :put
-  path    node["redash"]["install_path"]
-  
-  #Due to peculiarity of the way the archive gets created:
-  strip_leading_dir false
-end
-
-#Install dependencies acc. to file:
-bash ":install pip dependencies" do 
-  code <<-EOS
-  cd #{node["redash"]["install_path"]}/redash
-  pip install -r ./rd_service/requirements.txt
-  EOS
-end
-
-#Configure:
-template "#{node["redash"]["install_path"]}/redash/rd_service/settings.py" do
-  source "settings.py.erb"
 end
 
 #Setup pg user(s) and database(s):
@@ -69,7 +47,6 @@ postgresql_database node['redash']['cfg']['dbname'] do
   action      :create
 end
 
-
 postgresql_database_user "redash_db_user" do
   username       node['redash']['db']['user']
   connection     pg_db_super_connection
@@ -87,6 +64,47 @@ postgresql_database_user "redash_cfg_user" do
   privileges     [:all]
   action         [:create,:grant]
 end
+
+
+
+######################################################
+#  DOWNTIME section 
+#    -- fiddle with stuff that breaks a running server
+######################################################
+
+runit_service "redash-server" do
+  action  :stop
+end
+
+runit_service "redash-worker" do
+  action  :stop
+end
+
+#Download and deploy the redash release
+#TODO: version should be acc. to what's in metadata.rb
+#TODO: install path should be a configurable attribute
+ark "redash" do
+  url     "http://github.com/EverythingMe/redash/releases/download/v0.1.35/redash.35.tar.gz"
+  action  :put
+  path    node["redash"]["install_path"]
+  
+  #Due to peculiarity of the way the archive gets created:
+  strip_leading_dir false
+end
+
+#Install dependencies acc. to file:
+bash ":install pip dependencies" do 
+  code <<-EOS
+  cd #{node["redash"]["install_path"]}/redash
+  pip install -r ./rd_service/requirements.txt
+  EOS
+end
+
+#Configure:
+template "#{node["redash"]["install_path"]}/redash/rd_service/settings.py" do
+  source "settings.py.erb"
+end
+
 
 
 #Initialize the DB, connecting as normal user:
