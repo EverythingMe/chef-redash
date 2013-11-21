@@ -34,14 +34,14 @@ bash ":install pip dependencies" do
 end
 
 # configure
-template "#{node['redash']['path']}/rd_service/settings.py" do
-  source "settings.py.erb"
-end
+settings_path = File.join(node['redash']['path'], "rd_service", "settings.py")
+
+template settings_path
 
 runit_service "redash-server" do
-  subscribes :restart, "template[#{node['redash']['path']}/rd_service/settings.py"
+  subscribes :restart, "template[#{settings_path}]"
 end
 
 runit_service "redash-worker" do
-  subscribes :restart, "template[#{node['redash']['path']}/rd_service/settings.py"
+  subscribes :restart, "template[#{settings_path}]"
 end
