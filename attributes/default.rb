@@ -1,27 +1,26 @@
 
 default["redash"]["install_path"]    = "/opt"
+default["redash"]["prefix"]          = "/opt"
+default["redash"]["path"]            = node["redash"]["prefix"] + "/redash"
 
 default["redash"]["user"]            = "redash"
 
 default['redash']['redis_url']       = "redis://localhost:6379"
 
-default['redash']['db']['user']      = "redash"
-default['redash']['db']['password']  = "secureredisecure"
-#default['redash']['db']['host']      = "localhost"
+default['redash']['db']['user']      = nil
+default['redash']['db']['password']  = nil
+default['redash']['db']['host']      = nil
 default['redash']['db']['port']      = 5432
 default['redash']['db']['dbname']    = "redash_db0"
 default['redash']['cfg']['dbname']   = "redash_cfgdb0"
-default['redash']['cfg']['user']     = "redash"
-default['redash']['cfg']['password'] = "secureredisecure"
+default['redash']['cfg']['user']     = node['redash']['db']['user']
+default['redash']['cfg']['password'] = node['redash']['db']['password']
 default['redash']['cfg']['host']     = node['redash']['db']['host']
-default['redash']['cfg']['port']     = 5432
-default['redash']['db']['postgres_pwd']  = node['postgresql']['password']['postgres']
-default['redash']['cfg']['postgres_pwd'] = node['postgresql']['password']['postgres']
+default['redash']['cfg']['port']     = node['redash']['db']['port']
 
 
-#Accept logins from open id's verified by google accounts:
-default['redash']['allow']['google_app_domain'] = "everything.me"
-#Two strings with python list inside...:
+# accept logins from open id's verified by google accounts
+default['redash']['allow']['google_app_domain'] = "gmail.com"
 default['redash']['allow']['google_app_users']  = ['joe@gmail.com','max@gmail.com']
 default['redash']['allow']['admins']            = ['timor@everything.me','arik@everything.me']
 
@@ -33,7 +32,7 @@ default['redash']['cookie_secret']   = "c292a0a3aa32397cdb050e233733900f"
 default['redash']['server']['log']   = "./main"
 default['redash']['worker']['log']   = "./main"
 
-default['redash']['server']['py']    = node['redash']['install_path']+"/redash/rd_service/server.py"
-default['redash']['worker']['py']    = node['redash']['install_path']+"/redash/rd_service/cli.py worker"
+default['redash']['server']['py']    = node['redash']['path'] + "/rd_service/server.py"
+default['redash']['worker']['py']    = node['redash']['path'] + "/rd_service/cli.py worker"
 
 default['redash']['svlog_opt']       = "-tt"
