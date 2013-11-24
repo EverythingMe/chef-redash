@@ -8,11 +8,11 @@ import django.conf
 REDIS_URL = "<%= node['redash']['redis_url'] %>"
 
 # Connection string for the database that is used to run queries against
-<%= # TODO: Simplify connection string creation %>
+# TODO: Simplify connection string creation
 CONNECTION_STRING = "user=<%= node['redash']['db']['user'] %> password=<%= node['redash']['db']['password'] %> host=<%= node['redash']['db']['host'] %> port=<%= node['redash']['db']['port'] %> dbname=<%= node['redash']['db']['dbname'] %>"
 
 # Connection string for the operational databases (where we store the queries, results, etc)
-INTERNAL_DB_CONNECTION_STRING = "user=<%= node['redash']['cfg']['user'] %> password=<%= node['redash']['cfg']['password'] %> host=<%= node['redash']['cfg']['host'] %> port=<%= node['redash']['cfg']['port'] %> dbname=<%= node['redash']['cfg']['dbname'] %>"
+INTERNAL_DB_CONNECTION_STRING = "user=<%= node['redash']['cfg_db']['user'] %> password=<%= node['redash']['cfg_db']['password'] %> host=<%= node['redash']['cfg_db']['host'] %> port=<%= node['redash']['cfg_db']['port'] %> dbname=<%= node['redash']['cfg_db']['dbname'] %>"
 
 # Google Apps domain to allow access from; any user with email in this Google Apps will be allowed
 # access

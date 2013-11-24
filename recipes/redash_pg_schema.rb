@@ -17,14 +17,14 @@ pg_db_connection = {
   :password => node['redash']['db']['password']
 }
 pg_cfg_connection = {
-  :host     => node['redash']['cfg']['host'],
-  :port     => node['redash']['cfg']['port'],
-  :username => node['redash']['cfg']['user'],
-  :password => node['redash']['cfg']['password']
+  :host     => node['redash']['cfg_db']['host'],
+  :port     => node['redash']['cfg_db']['port'],
+  :username => node['redash']['cfg_db']['user'],
+  :password => node['redash']['cfg_db']['password']
 }
 
 # configuration db
-postgresql_database node['redash']['cfg']['dbname'] do
+postgresql_database node['redash']['cfg_db']['dbname'] do
   connection  pg_cfg_connection
   action      :create
 end

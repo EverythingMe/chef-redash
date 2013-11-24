@@ -3,6 +3,8 @@ default["redash"]["install_path"]    = "/opt"
 default["redash"]["prefix"]          = "/opt"
 default["redash"]["path"]            = File.join(node["redash"]["prefix"], "redash")
 
+default["redash"]["tarball_url"]     = "http://github.com/EverythingMe/redash/releases/download/v0.1.35/redash.35.tar.gz"
+
 default["redash"]["user"]            = "redash"
 
 default['redash']['redis_url']       = "redis://localhost:6379"

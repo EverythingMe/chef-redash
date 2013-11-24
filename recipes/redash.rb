@@ -14,10 +14,8 @@ user node['redash']['user'] do
 end
 
 # download and deploy the redash release
-# TODO: version should be acc. to what's in metadata.rb
-# TODO: install path should be a configurable attribute
 ark "redash" do
-  url     "http://github.com/EverythingMe/redash/releases/download/v0.1.35/redash.35.tar.gz"
+  url     node["redash"]["tarball_url"]
   action  :put
   path    node['redash']['prefix']
 
