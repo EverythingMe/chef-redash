@@ -33,15 +33,15 @@ end
 postgresql_database node['redash']['db']['dbname'] do
   connection  pg_db_connection
   action      :create
-  notifies    :cherry_pick, "ark[redash_sql]",     :immediately
+  notifies    :cherry_pick, "ark[redash_tarball]", :immediately
   notifies    :run,         "bash[initialize_db]", :immediately
 end
 
 # get the initialization SQL
 tmp_path   = "/tmp/redash_sql"
 sql_cherry = "rd_service/data/tables.sql"
-sql_path   = tmp_path+"/"+sql_cherry
-ark "redash_sql" do
+sql_path   = "#{tmp_path}/#{sql_cherry}"
+ark "redash_tarball" do
   url     node["redash"]["tarball_url"]
   action  :nothing
   path    tmp_path

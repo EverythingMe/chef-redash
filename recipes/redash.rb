@@ -32,6 +32,7 @@ require_attribute ['redash','db','host']
 
 
 # workaround for encoding errors with remote_file:
+# (ref: https://tickets.opscode.com/browse/CHEF-4798)
 Encoding.default_external = Encoding::ASCII_8BIT
 
 include_recipe "python"
@@ -42,7 +43,7 @@ user node['redash']['user'] do
 end
 
 # download and deploy the redash release
-ark "redash" do
+ark "redash_tarball" do
   url     node["redash"]["tarball_url"]
   action  :put
   path    node['redash']['prefix']
@@ -52,7 +53,7 @@ ark "redash" do
 end
 
 # install dependencies acc. to file:
-bash ":install pip dependencies" do 
+bash "install pip dependencies" do 
   code <<-EOS
     cd #{node['redash']['path']}
     pip install -r ./rd_service/requirements.txt
