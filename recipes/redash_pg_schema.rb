@@ -33,7 +33,23 @@ end
 postgresql_database node['redash']['db']['dbname'] do
   connection  pg_db_connection
   action      :create
-  notifies    :run, "bash[initialize_db]", :immediately
+  notifies    :cherry_pick, "ark[redash_sql]",     :immediately
+  notifies    :run,         "bash[initialize_db]", :immediately
+end
+
+# get the initialization SQL
+tmp_path   = "/tmp/redash_sql"
+sql_cherry = "rd_service/data/tables.sql"
+sql_path   = tmp_path+"/"+sql_cherry
+ark "redash_sql" do
+  url     node["redash"]["tarball_url"]
+  action  :nothing
+  path    tmp_path
+  creates sql_cherry
+  
+  
+  # due to peculiarity of the way the archive gets created
+  strip_leading_dir false
 end
 
 # initialize the DB, connecting as normal user:
@@ -50,8 +66,6 @@ bash "initialize_db" do
   action :nothing
   code <<-EOS
     set -e
-
-    cd "#{node['redash']['install_path']}/redash"
-    psql "#{constr}" < ./rd_service/data/tables.sql
+    psql "#{constr}" < "#{sql_path}"
   EOS
 end
