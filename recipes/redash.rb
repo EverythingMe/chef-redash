@@ -43,32 +43,37 @@ user node['redash']['user'] do
 end
 
 # download and deploy the redash release
-ark "redash_tarball" do
-  url     node["redash"]["tarball_url"]
-  action  :put
-  path    node['redash']['prefix']
-
+ark "redash" do
+  url         node["redash"]["tarball_url"]
+  version     node["redash"]["version"]
+  checksum    node["redash"]["checksum"]
+  action      :install
+  prefix_root node['redash']['prefix']
+  prefix_home node['redash']['prefix']
+  
   # due to peculiarity of the way the archive gets created
   strip_leading_dir false
 end
 
 # install dependencies acc. to file:
-bash "install pip dependencies" do 
-  code <<-EOS
-    cd #{node['redash']['path']}
-    pip install -r ./rd_service/requirements.txt
-  EOS
+execute "install pip dependencies" do 
+  cwd     node['redash']['path']
+  command "pip install -r ./rd_service/requirements.txt"
 end
 
 # configure
-settings_path = File.join(node['redash']['path'], "rd_service", "settings.py")
+settings_path = ::File.join(node['redash']['path'], "rd_service", "settings.py")
 
-template settings_path
+template settings_path do
+  mode '0644'
+end
 
 runit_service "redash-server" do
   subscribes :restart, "template[#{settings_path}]"
+  subscribes :restart, "ark[redash]"
 end
 
 runit_service "redash-worker" do
   subscribes :restart, "template[#{settings_path}]"
+  subscribes :restart, "ark[redash]"
 end

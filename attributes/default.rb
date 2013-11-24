@@ -1,7 +1,9 @@
 default['redash']['prefix']          = '/opt'
-default['redash']['path']            = File.join(node['redash']['prefix'], 'redash')
+default['redash']['path']            = ::File.join(node['redash']['prefix'], 'redash')
 
 default['redash']['tarball_url']     = 'http://github.com/EverythingMe/redash/releases/download/v0.1.35/redash.35.tar.gz'
+default['redash']['version']         = '0.1.35'
+default['redash']['checksum']        = 'abcb3aa0748d01d2c6f03a6097de2c73984fdef249ea3f06a80d777e8f1639ca'
 
 default['redash']['user']            = 'redash'
 
@@ -32,7 +34,7 @@ default['redash']['cookie_secret']   = 'c292a0a3aa32397cdb050e233733900f'
 default['redash']['server']['log']   = './main'
 default['redash']['worker']['log']   = './main'
 
-default['redash']['server']['py']    = File.join(node['redash']['path'], 'rd_service', 'server.py')
-default['redash']['worker']['py']    = File.join(node['redash']['path'], 'rd_service', 'cli.py') + ' worker'
+default['redash']['server']['py']    = ::File.join(node['redash']['path'], 'rd_service', 'server.py')
+default['redash']['worker']['py']    = ::File.join(node['redash']['path'], 'rd_service', 'cli.py') + ' worker'
 
 default['redash']['svlog_opt']       = '-tt'
