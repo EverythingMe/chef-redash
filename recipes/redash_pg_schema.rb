@@ -3,6 +3,12 @@
 # Recipe:: redash_pg_schema
 #
 
+# check for required attributes
+require_attribute ['redash','db','user']
+require_attribute ['redash','db','password']
+require_attribute ['redash','db','host']
+
+
 # workaround for encoding errors with remote_file
 Encoding.default_external = Encoding::ASCII_8BIT
 
