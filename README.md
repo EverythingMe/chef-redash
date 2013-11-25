@@ -10,7 +10,7 @@ Tested with latest Chef version 11.8.0
 * Ubuntu 12.04 LTS
 
 ### Cookbooks
-The following cookbooks are dependencies (through metada.rb and Berkshelf):
+The following cookbooks are dependencies (through metadata.rb and Berkshelf):
 * postgresql
 * python
 * ark
@@ -43,7 +43,7 @@ Usage
 #### redash::default
 Include the redash recipe
 
-#### redash::recipe
+#### redash::redash
 Installs the redash daemon
 
 #### redash::redash_pg_schema
@@ -64,4 +64,5 @@ Contributing
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+TODO: List authors
+TODO: Licence (GPL?)
