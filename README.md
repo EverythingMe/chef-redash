@@ -32,7 +32,10 @@ redash (eg: ['yourname@gmail.com'])
 The rest of the attributes have sensible defaults. See `attributes/default.rb`.
 The following are of particular interest:
 * `node['redash']['tarball_url']` - URL to download redash tarball from
+* `node['redash']['version']` - version of this tarball (/opt/redash will be a symlink to /opt/redash-`version`)
+* `node['redash']['checksum']` - sha256 checksum of the tarball obtained by `sha256sum redash-xx.tar.gz`
 * `node['redash']['allow']['google_app_domain']` - Google app domain for access control (eg: 'gmail.com')
+
 
 
 Usage
@@ -44,8 +47,10 @@ Include the redash recipe
 Installs the redash daemon
 
 #### redash::redash_pg_schema
-Creates a postgres database and tables required for redash
-
+Creates a postgres database and tables required for redash. 
+In order to run this recipe, the postgres user `node['redash']['db']['user']` must exist and must have CREATE_DB rights.
+Note that if run on the same node as redash::redash, this will be one and the same user that redash engine will connect to the database as.
+In the example Vagrantfile in redash we specify the super-user `postgres`. Obviously, this is to be avoided in production environment. We also intentionally left out user creation from this recipe, as we believe postgres users should be managed centrally. (Also, creating the user here would require specifying super-user credentials in the attributes of this cookbook, which is insecure in most cases).
 
 Contributing
 ------------
