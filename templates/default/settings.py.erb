@@ -36,9 +36,9 @@ COOKIE_SECRET   = "c292a0a3aa32397cdb050e233733900f"
 django.conf.settings.configure(DATABASES = { 'default': {
         'ENGINE':    'dbpool.db.backends.postgresql_psycopg2',
         'OPTIONS':  {'MAX_CONNS': <%= node['redash']['max_connections'] %>, 'MIN_CONNS': 1},
-        'NAME':     '<%= node['redash']['db']['dbname'] %>',
-        'USER':     '<%= node['redash']['db']['user'] %>',
-        'PASSWORD': '<%= node['redash']['db']['password'] %>',
-        'HOST':     '<%= node['redash']['db']['host'] %>',
-        'PORT':     '<%= node['redash']['db']['port'] %>',
+        'NAME':     '<%= node['redash']['cfg_db']['dbname'] %>',
+        'USER':     '<%= node['redash']['cfg_db']['user'] %>',
+        'PASSWORD': '<%= node['redash']['cfg_db']['password'] %>',
+        'HOST':     '<%= node['redash']['cfg_db']['host'] %>',
+        'PORT':     '<%= node['redash']['cfg_db']['port'] %>',
         },}, TIME_ZONE = 'UTC')

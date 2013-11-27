@@ -24,7 +24,7 @@ The following attributes are required to be set by user of the cookbook
 * `node['redash']['db']['host']` - Host name of machine running the postgresql backend
 * `node['redash']['db']['user']` - User to connect to DB with. In case the redash_pg_schema
 recipe is being instantiated, this user must have the CREATE_DB rights
-* `node['redash']['db']['password']` - Encrypted password of the above database user
+* `node['redash']['db']['password']` - *Plaintext* password of the above database user
 * `node['redash']['allow']['admins']` - List of emails (OIDs) of users allowed to administer
 redash (eg: ['yourname@gmail.com'])
 

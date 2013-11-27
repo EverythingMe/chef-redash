@@ -3,6 +3,8 @@
 # Recipe:: redash_pg_schema
 #
 
+require "digest/md5"
+
 # check for required attributes
 require_attribute ['redash','db','user']
 require_attribute ['redash','db','password']
@@ -15,32 +17,32 @@ Encoding.default_external = Encoding::ASCII_8BIT
 include_recipe "postgresql::client"
 include_recipe "database::postgresql"
 
-# setup pg user(s) and database(s)
+# setup pg database(s)
 pg_db_connection = {
   :host     => node['redash']['db']['host'],
   :port     => node['redash']['db']['port'],
   :username => node['redash']['db']['user'],
-  :password => node['redash']['db']['password']
+  :password => Digest::MD5.hexdigest(node['redash']['db']['password'])
 }
 pg_cfg_connection = {
   :host     => node['redash']['cfg_db']['host'],
   :port     => node['redash']['cfg_db']['port'],
   :username => node['redash']['cfg_db']['user'],
-  :password => node['redash']['cfg_db']['password']
+  :password => Digest::MD5.hexdigest(node['redash']['cfg_db']['password'])
 }
 
 # configuration db
 postgresql_database node['redash']['cfg_db']['dbname'] do
   connection  pg_cfg_connection
   action      :create
+  notifies    :cherry_pick, "ark[redash_sql]", :immediately
+  notifies    :run,         "bash[initialize_cfg_db]", :immediately
 end
 
 # data db
 postgresql_database node['redash']['db']['dbname'] do
   connection  pg_db_connection
-  action      :create
-  notifies    :cherry_pick, "ark[redash_sql]", :immediately
-  notifies    :run,         "bash[initialize_db]", :immediately
+  action      :create  
 end
 
 # get the initialization SQL
@@ -53,22 +55,20 @@ ark "redash_sql" do
   path    tmp_path
   creates sql_cherry
   
-  
-  # due to peculiarity of the way the archive gets created
+  # due to a peculiarity of the way the archive gets created
   strip_leading_dir false
 end
 
-# initialize the DB, connecting as normal user:
-# setup pg user(s) and database(s)
+# initialize the query DB, connecting as normal user
 pg_db_constr_hash = {
-  :host     => node['redash']['db']['host'],
-  :port     => node['redash']['db']['port'],
-  :user     => node['redash']['db']['user'],
-  :password => node['redash']['db']['password'],
-  :dbname   => node['redash']['db']['dbname']
+  :host     => node['redash']['cfg_db']['host'],
+  :port     => node['redash']['cfg_db']['port'],
+  :user     => node['redash']['cfg_db']['user'],
+  :password => Digest::MD5.hexdigest(node['redash']['cfg_db']['password']),
+  :dbname   => node['redash']['cfg_db']['dbname']
 }
 constr = pg_db_constr_hash.map{ |(k,v)| "#{k}=#{v}" }.join(" ")
-bash "initialize_db" do
+bash "initialize_cfg_db" do
   action :nothing
   code <<-EOS
     set -e
