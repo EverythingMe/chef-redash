@@ -22,13 +22,13 @@ pg_db_connection = {
   :host     => node['redash']['db']['host'],
   :port     => node['redash']['db']['port'],
   :username => node['redash']['db']['user'],
-  :password => Digest::MD5.hexdigest(node['redash']['db']['password'])
+  :password => node['redash']['db']['password']
 }
 pg_cfg_connection = {
   :host     => node['redash']['cfg_db']['host'],
   :port     => node['redash']['cfg_db']['port'],
   :username => node['redash']['cfg_db']['user'],
-  :password => Digest::MD5.hexdigest(node['redash']['cfg_db']['password'])
+  :password => node['redash']['cfg_db']['password']
 }
 
 # configuration db
@@ -64,7 +64,7 @@ pg_db_constr_hash = {
   :host     => node['redash']['cfg_db']['host'],
   :port     => node['redash']['cfg_db']['port'],
   :user     => node['redash']['cfg_db']['user'],
-  :password => Digest::MD5.hexdigest(node['redash']['cfg_db']['password']),
+  :password => node['redash']['cfg_db']['password'],
   :dbname   => node['redash']['cfg_db']['dbname']
 }
 constr = pg_db_constr_hash.map{ |(k,v)| "#{k}=#{v}" }.join(" ")
