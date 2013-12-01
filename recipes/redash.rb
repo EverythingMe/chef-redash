@@ -43,7 +43,7 @@ end
 settings_path = ::File.join(node['redash']['path'], "rd_service", "settings.py")
 
 template settings_path do
-  mode '0644'
+  mode '0600'
 end
 
 runit_service "redash-server" do
