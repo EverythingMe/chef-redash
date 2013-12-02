@@ -29,8 +29,9 @@ default['redash']['allow']['admins']            = nil
 default['redash']['workers_count']   = 2
 default['redash']['max_connections'] = 3
 
-default['redash']['cookie_secret']   = 'c292a0a3aa32397cdb050e233733900f'
-
+# default['redash']['cookie_secret'] = 'c292a0a3aa32397cdb050e233733900f'
+default['redash']['cookie_secret']   = nil
+  
 default['redash']['server']['log']   = './main'
 default['redash']['worker']['log']   = './main'
 

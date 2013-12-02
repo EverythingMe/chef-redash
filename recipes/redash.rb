@@ -8,6 +8,30 @@ require_attribute ['redash','db','user']
 require_attribute ['redash','db','password']
 require_attribute ['redash','db','host']
 
+cookie_secret_path   = ::File.join(node['redash']['path'], "rd_service", "cookie_secret.lock")
+cookie_secret_action = :nothing
+new_secret           = nil
+if node['redash']['cookie_secret'].nil?
+  old_secret      = ""
+  begin
+    File.open(cookie_secret_path, "rb") do |file|
+      old_secret  = file.read.strip
+    end
+  rescue SystemCallError
+  rescue IOError
+    # File did not exist (keep old_secret "")
+  end
+  
+  if old_secret == ""
+    require 'securerandom'
+    new_secret           = SecureRandom.hex(n=16)
+    cookie_secret_action = :create
+    node.set['redash']['cookie_secret'] = new_secret
+  else
+    node.set['redash']['cookie_secret'] = old_secret
+  end
+end
+
 
 # workaround for encoding errors with remote_file:
 # (ref: https://tickets.opscode.com/browse/CHEF-4798)
@@ -40,10 +64,18 @@ execute "install pip dependencies" do
 end
 
 # configure
-settings_path = ::File.join(node['redash']['path'], "rd_service", "settings.py")
+settings_path   = ::File.join(node['redash']['path'], "rd_service", "settings.py")
+
+# Create cookie_secret.lock if we've generated a new secret
+file cookie_secret_path do
+  action  cookie_secret_action
+  content "#{new_secret}\n"
+  mode    '0600'
+end
 
 template settings_path do
-  mode '0600'
+  mode  '0600'
+  owner node['redash']['user']
 end
 
 runit_service "redash-server" do

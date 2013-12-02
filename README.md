@@ -28,7 +28,8 @@ recipe is being instantiated, this user must have the CREATE_DB rights
 * `node['redash']['allow']['admins']` - List of emails (OIDs) of users allowed to administer
 redash (eg: ['yourname@gmail.com'])
 
- 
+* `node['redash']['cookie_secret']` - Set this to force a specific cookie_secret. If unset, a new secret will be generated (and remembered through a cookie_secret.lock file)
+
 The rest of the attributes have sensible defaults. See `attributes/default.rb`.
 The following are of particular interest:
 * `node['redash']['tarball_url']` - URL to download redash tarball from
