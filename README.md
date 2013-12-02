@@ -28,7 +28,6 @@ recipe is being instantiated, this user must have the CREATE_DB rights
 * `node['redash']['allow']['admins']` - List of emails (OIDs) of users allowed to administer
 redash (eg: ['yourname@gmail.com'])
 
-* `node['redash']['cookie_secret']` - Set this to force a specific cookie_secret. If unset, a new secret will be generated (and remembered through a cookie_secret.lock file)
 
 The rest of the attributes have sensible defaults. See `attributes/default.rb`.
 The following are of particular interest:
@@ -37,6 +36,9 @@ The following are of particular interest:
 * `node['redash']['checksum']` - sha256 checksum of the tarball obtained by `sha256sum redash-xx.tar.gz`
 * `node['redash']['allow']['google_app_domain']` - Google app domain for access control (eg: 'gmail.com')
 
+* `node['redash']['cookie_secret']` - Set this to force a specific cookie_secret. If unset, a new secret will be generated (and remembered through a cookie_secret.lock file)
+
+* `node['redash']['install_tarball']` - True by default. Set this to false when you don't want the tarball downloaded / extracted. Rather, you are expected to make /opt/redash (or `node['redash']['path']`) available by other means, such as a graft of a developer's local workspace. Note that the directory must contain pre-generated static content, built as per redash Readme.
 
 
 Usage
