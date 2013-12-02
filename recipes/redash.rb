@@ -8,6 +8,9 @@ require_attribute ['redash','db','user']
 require_attribute ['redash','db','password']
 require_attribute ['redash','db','host']
 
+
+# Support generating random cookie secret
+# Support persisting the secret in a node-local file (mainly for chef-solo)
 cookie_secret_path   = ::File.join(node['redash']['path'], "rd_service", "cookie_secret.lock")
 cookie_secret_action = :nothing
 new_secret           = nil
