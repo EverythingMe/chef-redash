@@ -44,6 +44,7 @@ user node['redash']['user'] do
   system true
 end
 
+
 # download and deploy the redash release
 ark "redash" do
   url         node["redash"]["tarball_url"]
@@ -55,6 +56,10 @@ ark "redash" do
   
   # due to peculiarity of the way the archive gets created
   strip_leading_dir false
+  
+  # skip if asked not to install
+  # (eg: vagrant box with a mount of a dev's dir @ /opt/redash )
+  only_if { node['redash']['install_tarball'] }
 end
 
 # install dependencies acc. to file:

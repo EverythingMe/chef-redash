@@ -1,6 +1,7 @@
 default['redash']['prefix']          = '/opt'
 default['redash']['path']            = ::File.join(node['redash']['prefix'], 'redash')
 
+default['redash']['install_tarball'] = true
 default['redash']['tarball_url']     = 'http://github.com/EverythingMe/redash/releases/download/v0.1.35/redash.35.tar.gz'
 default['redash']['version']         = '0.1.35'
 default['redash']['checksum']        = 'abcb3aa0748d01d2c6f03a6097de2c73984fdef249ea3f06a80d777e8f1639ca'
