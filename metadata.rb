@@ -1,6 +1,6 @@
 name             'redash'
 maintainer       'Everything.me'
-maintainer_email 'timor@everything.me'
+maintainer_email 'devops@everything.me'
 license          'All rights reserved'
 description      'Installs/Configures redash'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
