@@ -65,7 +65,7 @@ Contributing
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License and Authors
--------------------
-TODO: List authors
-TODO: Licence (GPL?)
+License
+-------
+See [LICENSE](https://github.com/EverythingMe/chef-redash/blob/master/LICENSE) file.
+
