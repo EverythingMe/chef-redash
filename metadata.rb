@@ -10,5 +10,6 @@ depends "postgresql"
 depends "python"
 depends "ark"
 depends "database"
+depends "nginx"
 
 depends 'runit', '>= 1.1.0'

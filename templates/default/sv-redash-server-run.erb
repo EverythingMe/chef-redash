@@ -1,4 +1,6 @@
 #!/bin/sh
+cd <%= ::File.join(node['redash']['path'], 'current') %>
 exec 2>&1
-exec chpst -u <%= node['redash']['user'] %> env python <%= node['redash']['server']['py'] %>
+. <%= ::File.join(node['redash']['path'], 'shared', 'env.sh') %>
+exec chpst -u <%= node['redash']['user'] %> env <%= ::File.join(node['redash']['path'], 'virtualenv', 'bin', 'python') %> manage.py runserver
 
