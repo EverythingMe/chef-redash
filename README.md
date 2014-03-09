@@ -1,6 +1,6 @@
 redash Cookbook
 =================
-This cookbook installs redash from github release (by default https://github.com/EverythingMe/redash/releases/tag/v0.1.35).
+This cookbook installs redash from GitHub release.
 
 Requirements
 ------------
