@@ -1,0 +1,58 @@
+{
+  "sources": {
+    "redash": {
+      "path": "."
+    },
+    "postgresql": {
+      "locked_version": "3.3.4"
+    },
+    "apt": {
+      "locked_version": "2.3.4"
+    },
+    "build-essential": {
+      "locked_version": "1.4.2"
+    },
+    "openssl": {
+      "locked_version": "1.1.0"
+    },
+    "python": {
+      "locked_version": "1.4.4"
+    },
+    "yum": {
+      "locked_version": "3.0.2"
+    },
+    "ark": {
+      "locked_version": "0.4.2"
+    },
+    "database": {
+      "locked_version": "1.6.0"
+    },
+    "mysql": {
+      "locked_version": "4.0.14"
+    },
+    "aws": {
+      "locked_version": "1.0.0"
+    },
+    "xfs": {
+      "locked_version": "1.1.0"
+    },
+    "nginx": {
+      "locked_version": "2.4.2"
+    },
+    "bluepill": {
+      "locked_version": "2.3.1"
+    },
+    "rsyslog": {
+      "locked_version": "1.12.2"
+    },
+    "ohai": {
+      "locked_version": "1.1.12"
+    },
+    "runit": {
+      "locked_version": "1.5.3"
+    },
+    "yum-epel": {
+      "locked_version": "0.2.0"
+    }
+  }
+}
