@@ -12,4 +12,8 @@ end
 
 nginx_site "redash"
 
-# TODO: restart nginx
+# TODO: restart nginx only when needed
+service 'nginx' do
+  action :restart
+end
+
