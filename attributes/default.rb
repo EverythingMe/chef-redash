@@ -32,8 +32,4 @@ default['redash']['config']['log_level'] = 'INFO'
 
 default['redash']['server']['log'] = './main'
 default['redash']['worker']['log'] = './main'
-
-default['redash']['server']['py'] = ::File.join(node['redash']['path'], 'rd_service', 'server.py')
-default['redash']['worker']['py'] = ::File.join(node['redash']['path'], 'rd_service', 'cli.py') + ' worker'
-
 default['redash']['svlog_opt'] = '-tt'

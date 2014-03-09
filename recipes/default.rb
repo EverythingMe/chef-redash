@@ -4,4 +4,5 @@
 #
 
 
-include_recipe "redash::redash"
+include_recipe "redash::deploy"
+include_recipe "redash::services"
