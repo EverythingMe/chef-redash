@@ -19,41 +19,79 @@ The following cookbooks are dependencies (through metadata.rb and Berkshelf):
 
 Attributes
 ----------
-The following attributes are required to be set by user of the cookbook
 
-* `node['redash']['db']['host']` - Host name of machine running the postgresql backend
-* `node['redash']['db']['user']` - User to connect to DB with. In case the redash_pg_schema
-recipe is being instantiated, this user must have the CREATE_DB rights
-* `node['redash']['db']['password']` - *Plaintext* password of the above database user
-* `node['redash']['allow']['admins']` - List of emails (OIDs) of users allowed to administer
-redash (eg: ['yourname@gmail.com'])
+### Default
 
+- `node['redash']['path']` - base path for re:dash related directories (install directory, virtualenv, etc) (default: `'/opt/redash'`)
+- `node['redash']['tarball_url']` - URL of re:dash tarball to install (default: url of version v0.3.5b175)
+- `node['redash']['version']` - re:dash version (default: extracted from tarball filename)
+- `node['redash']['checksum']` - SHA256 checksum of the tarball.
+- `node['redash']['install_tarball']` - True by default. Set this to false when you don't want the tarball downloaded / extracted. Rather, you are expected to make `/opt/redash/curernt` (or `node['redash']['path']/current`) available by other means, such as a graft of a developer's local workspace. Note that the directory must contain the bower packages and you need to update `node['redash']['config']['static_assets_path']` if you're using uncompiled version.
+- `node['redash']['user']` - user for re:dash (both system user & PostgreSQL user).
 
-The rest of the attributes have sensible defaults. See `attributes/default.rb`.
-The following are of particular interest:
-* `node['redash']['tarball_url']` - URL to download redash tarball from
-* `node['redash']['version']` - version of this tarball (/opt/redash will be a symlink to /opt/redash-`version`)
-* `node['redash']['checksum']` - sha256 checksum of the tarball obtained by `sha256sum redash-xx.tar.gz`
-* `node['redash']['allow']['google_app_domain']` - Google app domain for access control (eg: 'gmail.com')
+The following properties define the PostgreSQL database re:dash uses for its metadata. This is only needed if you want to use the `redash::database` recipe to create the user and database. The default values use assume PostgreSQL runs locally and use attributes to determine username and password:
 
-* `node['redash']['cookie_secret']` - Set this to force a specific cookie_secret. If unset, a new secret will be generated (and remembered through a cookie_secret.lock file)
+- `node['redash']['db']['host]`
+- `node['redash']['db']['port]`
+- `node['redash']['db']['username]`
+- `node['redash']['db']['password]`
 
-* `node['redash']['install_tarball']` - True by default. Set this to false when you don't want the tarball downloaded / extracted. Rather, you are expected to make /opt/redash (or `node['redash']['path']`) available by other means, such as a graft of a developer's local workspace. Note that the directory must contain pre-generated static content, built as per redash Readme.
+The following define gunicorn configuration:
+
+- `node['redash']['web']['workers_count']` -  number of gunicorn workers to use (defualt: 4).
+- `node['redash']['web']['port']` - port to bind gunicorn on (default: 5000).
+
+The following are used to write the configuration file:
+
+- `node['redash']['config']['database_url']` - database URL of the metadata database (default:  'postgresql://redash:super_secret@localhost/redash')
+- `node['redash']['config']['redis_url']` - URL of the Redis server (default: 'redis://localhost:6379')
+- `node['redash']['config']['google_apps_domain']` - Google Apps domain to authenticate with. **If left nil/blank, it will accept any Google Apps (or Gmail) domain.** (default: nil)
+- `node['redash']['config']['admins']` - comma separated list of emails of users with admin privilliges (it doesn't create the users, but when they login they will have admin rights) (defualt: nil)
+- `node['redash']['config']['static_assets_path']` - path to statis assets (if relative, then relative to code) (default: "../rd_ui/dist/")
+- `node['redash']['config']['workers_count']` - updater workers count (default: 2)
+- `node['redash']['config']['cookie_secret']` - secret used to encrypt cookies. **Make sure to change; specially on production deployments.** (default: 'c292a0a3aa32397cdb050e233733900f')
+- `node['redash']['config']['log_level']` - logging level (default: 'INFO')
+
+Settings for the re:dash datasource:
+
+- `node['redash']['config']['connection_adapter']` = 'pg'
+- `node['redash']['config']['connection_string']` = 'user=redash password=super_secret host=localhost dbname=redash'
+
+By default it's configured to query its own meta database (for demo purposes only). See [wiki](https://github.com/EverythingMe/redash/wiki/re:dash-connection-adapter-options) for additional options.
+
+runit related settings:
+
+- `node['redash']['server']['log']` = './main'
+- `node['redash']['worker']['log']` = './main'
+- `node['redash']['svlog_opt']` = '-tt'
 
 
 Usage
 -----
 #### redash::default
-Include the redash recipe
+Includes the deploy, configuration and services recipes.
 
-#### redash::redash
-Installs the redash daemon
+#### redash::deploy
+Deploys the codebase, configuration (using the `redash::configuration` recipe) and pip packages (requirements.txt and gunicorn).
 
-#### redash::redash_pg_schema
-Creates a postgres database and tables required for redash. 
-In order to run this recipe, the postgres user `node['redash']['db']['user']` must exist and must have CREATE_DB rights.
-Note that if run on the same node as redash::redash, this will be one and the same user that redash engine will connect to the database as.
-In the example Vagrantfile in redash we specify the super-user `postgres`. Obviously, this is to be avoided in production environment. We also intentionally left out user creation from this recipe, as we believe postgres users should be managed centrally. (Also, creating the user here would require specifying super-user credentials in the attributes of this cookbook, which is insecure in most cases).
+#### redash::configuration
+Created the configuration file (the env.sh executable that exports relevant settings).
+
+#### redash::services
+Setups runit services to run the web server and updater.
+
+#### redash::redis
+
+Naive recipe to install Redis server from package.
+
+#### redash::database
+
+Created Postgresql database and user for re:dash.
+
+#### redash::nginx
+
+Installs nginx and setups proxy for re:dash.
+
 
 Contributing
 ------------
