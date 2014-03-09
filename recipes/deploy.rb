@@ -38,12 +38,15 @@ execute "install pip dependencies" do
   command "#{pip_cmd} install -r #{requirements_path} --allow-external atfork --allow-unverified atfork"
 end
 
-# TODO: this needs to be run only once
+python_pip "gunicorn" do
+  virtualenv virtualenv
+  action :install
+end
+
+# TODO: this needs to replaced by migrate 
 python_cmd = ::File.join(virtualenv, 'bin', 'python')
 env = ::File.join(node['redash']['path'], 'shared', 'env.sh')
 execute "create database" do
   cwd ::File.join(node['redash']['path'], 'current')
-  command "source #{env} && #{python_cmd} manage.py database create_tables"
+  command ". #{env} && #{python_cmd} manage.py database create_tables"
 end
-
-# TODO: gunicorn
