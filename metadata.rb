@@ -1,8 +1,8 @@
 name             'redash'
-maintainer       'Everything.me'
+maintainer       'EverythingMe'
 maintainer_email 'devops@everything.me'
 license          'All rights reserved'
-description      'Installs/Configures redash'
+description      'Installs/Configures re:dash'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.4'
 
