@@ -21,7 +21,7 @@ default['redash']['config']['connection_adapter'] = 'pg'
 default['redash']['config']['connection_string'] = 'user=redash password=super_secret host=localhost dbname=redash'
 default['redash']['config']['google_apps_domain'] = nil
 default['redash']['config']['admins']            = nil
-default['redash']['config']['default_assets_path'] = "../rd_ui/dist/"
+default['redash']['config']['static_assets_path'] = "../rd_ui/dist/"
 default['redash']['config']['workers_count']   = 2
 default['redash']['config']['cookie_secret'] = 'c292a0a3aa32397cdb050e233733900f'
 default['redash']['config']['log_level'] = 'INFO'  
