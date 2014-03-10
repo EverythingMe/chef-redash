@@ -32,6 +32,8 @@ default['redash']['config']['log_level'] = 'INFO'
 default['redash']['config']['statsd_host'] = "127.0.0.1"
 default['redash']['config']['statsd_port'] = 8125
 default['redash']['config']['statsd_prefix'] = "redash"
+default['redash']['config']['google_openid_enabled'] = true
+default['redash']['config']['password_login_enabled'] = false
 
 default['redash']['server']['log'] = './main'
 default['redash']['worker']['log'] = './main'

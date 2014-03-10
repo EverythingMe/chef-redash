@@ -46,6 +46,8 @@ The following are used to write the configuration file:
 - `node['redash']['config']['database_url']` - database URL of the metadata database (default:  'postgresql://redash:super_secret@localhost/redash')
 - `node['redash']['config']['redis_url']` - URL of the Redis server (default: 'redis://localhost:6379')
 - `node['redash']['config']['google_apps_domain']` - Google Apps domain to authenticate with. **If left nil/blank, it will accept any Google Apps (or Gmail) domain.** (default: nil)
+- `node['redash']['config']['google_openid_enabled']` - Enable/disable Google Apps login support (default: true)
+- `node['redash']['config']['password_login_enabled']` - Enable password login support (need to create users manually; defualt: false)
 - `node['redash']['config']['admins']` - comma separated list of emails of users with admin privilliges (it doesn't create the users, but when they login they will have admin rights) (defualt: nil)
 - `node['redash']['config']['static_assets_path']` - path to statis assets (if relative, then relative to code) (default: "../rd_ui/dist/")
 - `node['redash']['config']['workers_count']` - updater workers count (default: 2)
