@@ -24,7 +24,6 @@ Attributes
 
 - `node['redash']['path']` - base path for re:dash related directories (install directory, virtualenv, etc) (default: `'/opt/redash'`)
 - `node['redash']['tarball_url']` - URL of re:dash tarball to install (default: url of version v0.3.5b175)
-- `node['redash']['version']` - re:dash version (default: extracted from tarball filename)
 - `node['redash']['checksum']` - SHA256 checksum of the tarball.
 - `node['redash']['install_tarball']` - True by default. Set this to false when you don't want the tarball downloaded / extracted. Rather, you are expected to make `/opt/redash/curernt` (or `node['redash']['path']/current`) available by other means, such as a graft of a developer's local workspace. Note that the directory must contain the bower packages and you need to update `node['redash']['config']['static_assets_path']` if you're using uncompiled version.
 - `node['redash']['user']` - user for re:dash (both system user & PostgreSQL user).

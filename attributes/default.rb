@@ -2,8 +2,6 @@ default['redash']['path'] = '/opt/redash'
 
 default['redash']['install_tarball'] = true
 default['redash']['tarball_url'] = 'https://github.com/EverythingMe/redash/releases/download/v0.3.5%2Bb175/redash.0.3.5.b175.tar.gz'
-# This regex translates redash.0.3.5.b175.tar.gz to 0.3.5.b175:
-default['redash']['version'] = /redash\.([0-9a-z\.]*).tar.gz/.match(node['redash']['tarball_url'].split("/")[-1])[1]
 default['redash']['checksum'] = '5c3da9fde86bbe500b9c04cab8465e26a5e8d8ba8ee33bb8cb8147e7bed300f6'
 
 default['redash']['user'] = 'redash'

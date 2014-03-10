@@ -1,10 +1,11 @@
 include_recipe "redash::configuration"
 include_recipe "python"
 
+version = /redash\.([0-9a-z\.]*).tar.gz/.match(node['redash']['tarball_url'].split("/")[-1])[1]
 # download and deploy the redash release
 ark "redash" do
   url         node["redash"]["tarball_url"]
-  version     node["redash"]["version"]
+  version     version
   checksum    node["redash"]["checksum"]
   action      :install
   prefix_root node['redash']['path']
