@@ -65,6 +65,12 @@ runit related settings:
 - `node['redash']['worker']['log']` = './main'
 - `node['redash']['svlog_opt']` = '-tt'
 
+If you choose to use nginx to proxy traffic to re:dash web server, you can use the following attributes:
+
+- `node['redash']['nginx']['server_name']` - server name to "respond" to (default: localhost).
+- `node['redash']['nginx']['use_ssl']` - enable/disable SSL support (highly recommended for production use) (default: false).
+- `node['redash']['nginx']['ssl_certificate']`, `node['redash']['nginx']['ssl_certificate_key']` - paths to the SSL certificate file and key (default: '').
+
 
 Usage
 -----
