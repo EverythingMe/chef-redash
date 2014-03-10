@@ -29,6 +29,9 @@ default['redash']['config']['static_assets_path'] = "../rd_ui/dist/"
 default['redash']['config']['workers_count'] = 2
 default['redash']['config']['cookie_secret'] = 'c292a0a3aa32397cdb050e233733900f'
 default['redash']['config']['log_level'] = 'INFO'  
+default['redash']['config']['statsd_host'] = "127.0.0.1"
+default['redash']['config']['statsd_port'] = 8125
+default['redash']['config']['statsd_prefix'] = "redash"
 
 default['redash']['server']['log'] = './main'
 default['redash']['worker']['log'] = './main'

@@ -51,6 +51,9 @@ The following are used to write the configuration file:
 - `node['redash']['config']['workers_count']` - updater workers count (default: 2)
 - `node['redash']['config']['cookie_secret']` - secret used to encrypt cookies. **Make sure to change; specially on production deployments.** (default: 'c292a0a3aa32397cdb050e233733900f')
 - `node['redash']['config']['log_level']` - logging level (default: 'INFO')
+- `node['redash']['config']['statsd_host']` - StatsD host (default: "127.0.0.1")
+- `node['redash']['config']['statsd_port']` - StatsD port (default: 8125)
+- `node['redash']['config']['statsd_prefix']` - StatsD metrics prefix (default: "redash")
 
 Settings for the re:dash datasource:
 
