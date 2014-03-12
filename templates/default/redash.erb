@@ -3,7 +3,7 @@ upstream rd_servers {
 }
 
 server {
-  server_name <%= node['redash']['nginx']['server_name'] %>
+  server_name <%= node['redash']['nginx']['server_name'] %>;
   <% if node['redash']['nginx']['use_ssl'] %>
   listen   [::]:80;
   listen   443 default ssl;
