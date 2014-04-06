@@ -5,4 +5,3 @@
 
 
 include_recipe "redash::deploy"
-include_recipe "redash::services"
