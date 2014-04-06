@@ -18,7 +18,7 @@ action :create do
 end
 
 def set_attribute(name, value)
-  node.set['redash']['instances'][new_resource.name][name] = value
+  node.default['redash']['instances'][new_resource.name][name] = value
 end
 
 def create_redash_instance_configuration
