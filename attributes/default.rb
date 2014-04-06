@@ -1,4 +1,5 @@
 default['redash']['user'] = 'redash'
+default['redash']['web']['port'] = 5000
 
 default['redash']['db'] = {
   :host     => 'localhost',
