@@ -5,13 +5,6 @@ end
 use_inline_resources
 
 action :create do
-  # if @current_resource.exists
-  #   Chef::Log.info "#{ new_resource } already exists - nothing to do."
-  # else
-  #   converge_by("Create #{ new_resource }") do
-  #     create_printer_port
-  #   end
-  # end
   Chef::Log.info "Creating: #{ new_resource }"
   converge_by("Configure #{ new_resource }") do
     create_redash_instance_configuration
@@ -96,7 +89,7 @@ def create_redash_instance
   requirements_path = ::File.join(new_resource.current_path, 'requirements.txt')
   execute "install pip dependencies" do 
     cwd     basepath
-    command "#{pip_cmd} install -r #{requirements_path} --allow-external atfork --allow-unverified atfork"
+    command "#{pip_cmd} install -U -r #{requirements_path} --allow-external atfork --allow-unverified atfork"
   end
 
   python_pip "gunicorn" do
@@ -123,6 +116,7 @@ def create_redash_services
     web_port: new_resource.port,
     web_workers: new_resource.web_workers
   }
+  set_attribute('web_port', new_resource.port)
 
   runit_service "redash-#{new_resource.name}-server" do
     subscribes :restart, "template[#{attribute('env_path')}]"
