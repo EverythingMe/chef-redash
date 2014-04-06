@@ -19,6 +19,10 @@ end
 
 def set_attribute(name, value)
   # TODO: this is not so safe, but didn't have much other ideas.
+  breakpoint "before setting attributes" do
+    action :break
+  end
+  
   if node['redash']['instances'].nil?
     node.set['redash']['instances'] = {}
   end
