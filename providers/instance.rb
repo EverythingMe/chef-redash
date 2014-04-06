@@ -18,9 +18,15 @@ action :create do
 end
 
 def set_attribute(name, value)
+  # TODO: this is not so safe, but didn't have much other ideas.
+  if node['redash']['instances'].nil?
+    node.default['redash']['instances'] = {}
+  end
+
   if node['redash']['instances'][new_resource.name].nil?
     node.default['redash']['instances'][new_resource.name] = {}
   end
+
   node.default['redash']['instances'][new_resource.name][name] = value
 end
 
