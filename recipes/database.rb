@@ -1,10 +1,3 @@
-#
-# Cookbook Name:: redash
-# Recipe:: redash_pg_schema
-#
-
-require "digest/md5"
-
 include_recipe "postgresql::client"
 include_recipe "database::postgresql"
 

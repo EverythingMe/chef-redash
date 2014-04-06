@@ -17,8 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "redash::redis"
     chef.add_recipe "redash::database"
     chef.add_recipe "redash::deploy"
-    chef.add_recipe "redash::services"
-    chef.add_recipe "redash::nginx"
+    #chef.add_recipe "redash::nginx"
     chef.json = { 
       postgresql: {
         password: {

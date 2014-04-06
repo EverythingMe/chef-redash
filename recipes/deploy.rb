@@ -1,53 +1,22 @@
-include_recipe "redash::configuration"
-include_recipe "python"
+# include_recipe "python"
 
-version = /redash\.([0-9a-z\.]*).tar.gz/.match(node['redash']['tarball_url'].split("/")[-1])[1]
-# download and deploy the redash release
-ark "redash" do
-  url         node["redash"]["tarball_url"]
-  version     version
-  checksum    node["redash"]["checksum"]
-  action      :install
-  prefix_root node['redash']['path']
-  prefix_home node['redash']['path']
-  home_dir ::File.join(node['redash']['path'], 'current')
-  owner node['redash']['user']
-  
-  # due to peculiarity of the way the archive gets created
-  strip_leading_dir false
-  
-  # skip if asked not to install
-  # (eg: vagrant box with a mount of a dev's dir @ /opt/redash )
-  only_if { node['redash']['install_tarball'] }
-end
+config = {}
+config['database_url'] = 'postgresql://redash:super_secret@localhost/redash'
+config['redis_url'] = 'redis://localhost:6379'
+config['connection_adapter'] = 'pg'
+config['connection_string'] = 'user=redash password=super_secret host=localhost dbname=redash'
+config['google_apps_domain'] = nil
+config['admins'] = nil
+config['static_assets_path'] = "../rd_ui/dist/"
+config['workers_count'] = 2
+config['cookie_secret'] = 'c292a0a3aa32397cdb050e233733900f'
+config['log_level'] = 'INFO'  
+config['statsd_host'] = "127.0.0.1"
+config['statsd_port'] = 8125
+config['statsd_prefix'] = "redash"
+config['google_openid_enabled'] = true
+config['password_login_enabled'] = false
 
-# packages
-package 'postgresql-client'
-package 'libpq-dev'
-
-# virtualenv
-virtualenv = ::File.join(node['redash']['path'], "virtualenv")
-python_virtualenv virtualenv do
-  owner node['redash']['user']
-  interpreter "python2.7"
-end
-
-pip_cmd = ::File.join(virtualenv, 'bin', 'pip')
-requirements_path = ::File.join(node['redash']['path'], 'current', 'requirements.txt')
-execute "install pip dependencies" do 
-  cwd     node['redash']['path']
-  command "#{pip_cmd} install -r #{requirements_path} --allow-external atfork --allow-unverified atfork"
-end
-
-python_pip "gunicorn" do
-  virtualenv virtualenv
-  action :install
-end
-
-# TODO: this needs to replaced by migrate 
-python_cmd = ::File.join(virtualenv, 'bin', 'python')
-env = ::File.join(node['redash']['path'], 'shared', 'env.sh')
-execute "create database" do
-  cwd ::File.join(node['redash']['path'], 'current')
-  command ". #{env} && #{python_cmd} manage.py database create_tables"
+redash_instance 'redash' do
+  config config
 end

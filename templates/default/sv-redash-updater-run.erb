@@ -1,7 +1,7 @@
 #!/bin/sh
-cd <%= ::File.join(node['redash']['path'], 'current') %>
+cd <%= @options[:current_path] %>
 exec 2>&1
-. <%= ::File.join(node['redash']['path'], 'shared', 'env.sh') %>
-exec chpst -u <%= node['redash']['user'] %> env <%= ::File.join(node['redash']['path'], 'virtualenv', 'bin', 'python') %> manage.py runworkers
+. <%= @options[:env_path] %>
+exec chpst -u <%= @options[:user] %> env <%= ::File.join(@options[:virtualenv_path], 'bin', 'python') %> manage.py runworkers
 
 
