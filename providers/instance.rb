@@ -18,11 +18,10 @@ action :create do
 end
 
 def set_attribute(name, value)
-  node['redash']['instances'][new_resource.name][name] = value
-end
-
-def attribute(name)
-  node['redash']['instances'][new_resource.name][name]
+  if node['redash']['instances'][new_resource.name].nil?
+    node.default['redash']['instances'][new_resource.name] = {}
+  end
+  node.default['redash']['instances'][new_resource.name][name] = value
 end
 
 def create_redash_instance_configuration
@@ -119,7 +118,7 @@ def create_redash_services
   set_attribute('web_port', new_resource.port)
 
   runit_service "redash-#{new_resource.name}-server" do
-    subscribes :restart, "template[#{attribute('env_path')}]"
+    subscribes :restart, "template[#{new_resource.env_path}]"
     subscribes :restart, "ark[#{new_resource.name}]"
     run_template_name 'redash-server'
     log_template_name 'redash-server'
@@ -128,7 +127,7 @@ def create_redash_services
   end
 
   runit_service "redash-#{new_resource.name}-updater" do
-    subscribes :restart, "template[#{attribute('env_path')}]"
+    subscribes :restart, "template[#{new_resource.env_path}]"
     subscribes :restart, "ark[#{new_resource.name}]"
     run_template_name 'redash-updater'
     log_template_name 'redash-updater'
