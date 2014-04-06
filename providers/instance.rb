@@ -47,6 +47,7 @@ def create_redash_instance_configuration
   env_path = ::File.join(shared_path, 'env.sh')
   template env_path do
     source 'env.sh.erb'
+    cookbook 'redash'
     owner new_resource.user
     variables config: new_resource.config
   end 
@@ -128,6 +129,7 @@ def create_redash_services
     subscribes :restart, "ark[#{new_resource.name}]"
     run_template_name 'redash-server'
     log_template_name 'redash-server'
+    cookbook 'redash'
     options options
   end
 
@@ -136,6 +138,7 @@ def create_redash_services
     subscribes :restart, "ark[#{new_resource.name}]"
     run_template_name 'redash-updater'
     log_template_name 'redash-updater'
+    cookbook 'redash'
     options options
   end
 end
