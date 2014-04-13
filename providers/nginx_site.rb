@@ -30,8 +30,8 @@ def create_nginx_site
 
   nginx_site "#{new_resource.name}"
 
-  # TODO: restart nginx only when needed
-  service 'nginx' do
-    action :restart
-  end
+  # # TODO: restart nginx only when needed
+  # service 'nginx' do
+  #   action :restart
+  # end
 end
