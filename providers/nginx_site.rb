@@ -28,6 +28,10 @@ def create_nginx_site
               default_server: new_resource.default_server
   end
 
+  service "nginx" do
+    action :nothing
+  end
+
   nginx_site "#{new_resource.name}"
 
   # # TODO: restart nginx only when needed
