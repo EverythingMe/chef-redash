@@ -10,5 +10,6 @@ attribute :user, kind_of: String, default: 'redash'
 attribute :port, kind_of: Integer, default: 5000
 attribute :web_workers, kind_of: Integer, default: 4
 attribute :config, kind_of: Hash, required: true
+attribute :create_tables, kind_of: [TrueClass, FalseClass], default: true
 
 attr_accessor :current_path, :env_path, :virtualenv_path

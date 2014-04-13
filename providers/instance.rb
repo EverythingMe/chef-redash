@@ -99,6 +99,7 @@ def create_redash_instance
   execute "create database" do
     cwd new_resource.current_path
     command ". #{env} && #{python_cmd} manage.py database create_tables"
+    only_if { new_resource.create_tables }
   end
 end
 
