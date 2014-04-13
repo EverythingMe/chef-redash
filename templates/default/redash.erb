@@ -1,33 +1,44 @@
-upstream rd_servers {
-  server 127.0.0.1:<%= node['redash']['web']['port'] %>;
+upstream <%= @name %>_servers {
+  server 127.0.0.1:<%= @redash_port %>;
 }
 
 server {
-  server_name <%= node['redash']['nginx']['server_name'] %>;
-  <% if node['redash']['nginx']['use_ssl'] %>
+  server_name <%= @server_name %>;
+  <% if @ssl_enabled %>
   listen   [::]:80;
   listen   443 default ssl;
 
-  ssl_certificate <%= node['redash']['nginx']['ssl_certificate'] %>;
-  ssl_certificate_key <%= node['redash']['nginx']['ssl_certificate_key'] %>;
+  ssl_certificate <%= @ssl_certificate %>;
+  ssl_certificate_key <%= @ssl_certificate_key %>;
 
-  if ($ssl_protocol = "") {
-    rewrite ^   https://$server_name$request_uri? permanent;
-  }
   <% else %>
   listen   [::]:80 default;
   <% end %>
 
-  access_log /var/log/nginx/rd.access.log;
+  access_log /var/log/nginx/<%= @name %>.access.log;
 
   gzip on;
   gzip_types *;
   gzip_proxied any;
 
-  location / {
+  <% if @enforce_ssl %>
+  location /ping {
     proxy_set_header Host $http_host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass       http://rd_servers;
+    proxy_pass       http://<%= @name %>_servers;
+  }
+  <% end %>
+
+  location / {
+    <% if @enforce_ssl %>
+    if ($ssl_protocol = "") {
+      rewrite ^   https://$server_name$request_uri? permanent;
+    }
+    <% end %>
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass       http://<%= @name %>_servers;
   }
 }
