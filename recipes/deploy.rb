@@ -20,3 +20,8 @@ config['password_login_enabled'] = false
 redash_instance 'redash' do
   config config
 end
+
+redash_nginx_site 'redash' do
+  server_name 'localhost'
+  redash_port 5000
+end
