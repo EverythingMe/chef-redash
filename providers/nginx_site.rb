@@ -28,14 +28,11 @@ def create_nginx_site
               default_server: new_resource.default_server
   end
 
+  # TODO: understand why it doesn't recognize the service defined in nginx's 
+  # recipe, despite using use_inline_resources.
   service "nginx" do
     action :nothing
   end
 
   nginx_site "#{new_resource.name}"
-
-  # # TODO: restart nginx only when needed
-  # service 'nginx' do
-  #   action :restart
-  # end
 end

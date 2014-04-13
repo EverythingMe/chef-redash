@@ -31,7 +31,11 @@ server {
   <% end %>
 
   location / {
-    <% if @enforce_ssl %>
+    <% if @behind_proxy && @enforce_ssl %>
+    if ($http_x_forwarded_proto != "https") {
+      rewrite ^   https://$server_name$request_uri? permanent;
+    }
+    <% elsif @enforce_ssl %>
     if ($ssl_protocol = "") {
       rewrite ^   https://$server_name$request_uri? permanent;
     }
