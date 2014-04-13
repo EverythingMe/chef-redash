@@ -24,7 +24,8 @@ def create_nginx_site
               ssl_enabled: new_resource.ssl_enabled,
               enforce_ssl: new_resource.enforce_ssl,
               redash_port: new_resource.redash_port,
-              name: new_resource.name
+              name: new_resource.name,
+              default_server: new_resource.default_server
   end
 
   nginx_site "#{new_resource.name}"

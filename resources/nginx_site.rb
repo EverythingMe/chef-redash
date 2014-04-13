@@ -7,4 +7,5 @@ attribute :ssl_certificate, kind_of: String
 attribute :ssl_certificate_key, kind_of: String
 attribute :ssl_enabled, kind_of: [TrueClass, FalseClass], default: false
 attribute :enforce_ssl, kind_of: [TrueClass, FalseClass], default: false
+attribute :default_server, kind_of: [TrueClass, FalseClass], default: true
 attribute :redash_port, kind_of: Integer
