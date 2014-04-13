@@ -23,6 +23,7 @@ def create_nginx_site
               ssl_certificate_key: new_resource.ssl_certificate_key,
               ssl_enabled: new_resource.ssl_enabled,
               enforce_ssl: new_resource.enforce_ssl,
+              behind_proxy: new_resource.behind_proxy,
               redash_port: new_resource.redash_port,
               name: new_resource.name,
               default_server: new_resource.default_server
