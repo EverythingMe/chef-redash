@@ -2,8 +2,8 @@ actions :create
 default_action :create
 
 attribute :name, kind_of: String, name_attribute: true, required: true
-attribute :tarball_url, kind_of: String, default: 'https://github.com/EverythingMe/redash/releases/download/v0.3.5%2Bb175/redash.0.3.5.b175.tar.gz', required: true
-attribute :checksum, kind_of: String, default: '5c3da9fde86bbe500b9c04cab8465e26a5e8d8ba8ee33bb8cb8147e7bed300f6', required: true
+attribute :tarball_url, kind_of: String, default: 'https://github.com/EverythingMe/redash/releases/download/v0.3.6%2Bb328/redash.0.3.6.b328.tar.gz', required: true
+attribute :checksum, kind_of: String, default: 'f60d15640413b5d715b3787f8a81495a8faee9a05b0f679a7216c465503b7f92', required: true
 attribute :basepath, kind_of: String, default: '/opt'
 attribute :user, kind_of: String, default: 'redash'
 
