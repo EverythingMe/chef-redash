@@ -57,10 +57,10 @@ def create_redash_instance
   
   # download and deploy the redash release
   ark new_resource.name do
+    action      :install
     url         new_resource.tarball_url
     version     version
     checksum    new_resource.checksum
-    action      :install
     prefix_root basepath
     prefix_home basepath
     home_dir new_resource.current_path
@@ -68,6 +68,7 @@ def create_redash_instance
     
     # due to peculiarity of the way the archive gets created
     strip_leading_dir false
+    not_if { ::File.exist? new_resource.current_path }
   end
 
   # packages
