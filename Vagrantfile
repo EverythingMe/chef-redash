@@ -14,6 +14,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.berkshelf.enabled = true
   config.vm.provision :chef_solo do |chef|
     chef.add_recipe "postgresql::server"
+    chef.add_recipe "python"
+    chef.add_recipe "runit"
     chef.add_recipe "redash::redis"
     chef.add_recipe "redash::database"
     chef.add_recipe "redash::nginx"
