@@ -94,6 +94,12 @@ def create_redash_instance
     action :install
   end
 
+  python_pip "flower" do
+    virtualenv virtualenv
+    version "0.7.0"
+    action :install
+  end
+
   # TODO: this needs to replaced by migrate 
   python_cmd = ::File.join(virtualenv, 'bin', 'python')
   env = ::File.join(basepath, 'shared', 'env.sh')
@@ -112,7 +118,9 @@ def create_redash_services
     virtualenv_path: new_resource.virtualenv_path,
     env_path: new_resource.env_path,
     web_port: new_resource.port,
-    web_workers: new_resource.web_workers
+    web_workers: new_resource.web_workers,
+    celery_workers: new_resource.celery_workers,
+    celery_queues: new_resource.celery_queues
   }
   set_attribute('web_port', new_resource.port)
 
@@ -132,5 +140,20 @@ def create_redash_services
     log_template_name 'redash-updater'
     cookbook 'redash'
     options options
+  end
+
+  flower_options = options.merge(
+    flower_prefix: new_resource.celery_flower_prefix,
+    flower_port: new_resource.celery_flower_port,
+    flower_options: new_resource.celery_flower_options
+  )
+
+  runit_service "redash-#{new_resource.name}-flower" do
+    subscribes :restart, "template[#{new_resource.env_path}]"
+    subscribes :restart, "ark[#{new_resource.name}]"
+    run_template_name 'redash-flower'
+    log_template_name 'redash-flower'
+    cookbook 'redash'
+    options flower_options
   end
 end

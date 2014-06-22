@@ -16,6 +16,7 @@ config['statsd_port'] = 8125
 config['statsd_prefix'] = "redash"
 config['google_openid_enabled'] = true
 config['password_login_enabled'] = false
+config['celery_flower_url'] = 'http://localhost:9003/'
 
 redash_instance 'redash' do
   config config

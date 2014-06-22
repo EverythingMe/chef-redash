@@ -1,0 +1,6 @@
+#!/bin/sh
+cd <%= @options[:current_path] %>
+exec 2>&1
+. <%= @options[:env_path] %>
+exec chpst -u <%= @options[:user] %> env <%= ::File.join(@options[:virtualenv_path], 'bin', 'celery') %> flower --app=redash.worker --port=<%= @options[:flower_port] %> <%= @options[:flower_options] %>
+
