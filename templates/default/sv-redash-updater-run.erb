@@ -2,6 +2,6 @@
 cd <%= @options[:current_path] %>
 exec 2>&1
 . <%= @options[:env_path] %>
-exec chpst -u <%= @options[:user] %> env <%= ::File.join(@options[:virtualenv_path], 'bin', 'python') %> manage.py runworkers
+exec chpst -u <%= @options[:user] %> env <%= ::File.join(@options[:virtualenv_path], 'bin', 'celery') %> worker --app=redash.worker -c<%= @options[:celery_workers] %> --beat -Qqueries,celery,scheduled_queries,<%= @options[:celery_queues] %> --maxtasksperchild 10 -Ofair
 
 
