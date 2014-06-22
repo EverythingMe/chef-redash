@@ -7,7 +7,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
 
-  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 80, host: 9002
+  config.vm.network :forwarded_port, guest: 5555, host: 9003
   
   config.omnibus.chef_version = :latest
   config.berkshelf.enabled = true
