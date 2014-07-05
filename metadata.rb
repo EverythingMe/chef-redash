@@ -8,7 +8,7 @@ version          '0.4'
 
 depends "postgresql"
 depends "python"
-depends "ark", '= 0.4.2'
+depends "ark", '= 0.6.0'
 depends "database"
 depends "nginx"
 
