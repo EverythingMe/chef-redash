@@ -1,3 +1,7 @@
+This Cookbook is outdated and unmaintained. Please refer to the updated [setup guide](https://github.com/EverythingMe/redash/wiki/Setting-up-re:dash-instance).
+=================
+
+
 redash Cookbook
 =================
 This cookbook installs redash from GitHub release.
